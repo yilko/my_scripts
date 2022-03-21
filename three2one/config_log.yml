@@ -1,0 +1,49 @@
+#配置格式的版本，目前只支持1
+version: 1
+# 将信息传播到配置文件的root日志记录器中
+disable_existing_loggers: False
+formatters:
+    #格式器名称
+    general_format:
+        format: "%(asctime)s -%(filename)s - %(name)s -%(levelname)s -%(message)s"
+    upgrade_format:
+        format: "%(asctime)s -%(filename)s - %(name)s - [line:%(lineno)d] - %(levelname)s: %(message)s"
+handlers:
+    #处理器名称(输出到控制台)
+    console:
+        # 必填项,选选择的handler类,将日志消息发送到输出到Stream
+        class: logging.StreamHandler
+        level: INFO
+        # 上面格式器的名称
+        formatter: general_format
+        # 估计是跟流处理器配对的，把流输出到控制台
+        stream: ext://sys.stdout
+    #处理器名称(输出到文件)
+    to_file:
+        # 必填项,选选择的handler类,将日志消息发送到磁盘文件，并支持日志文件按大小切割
+        class: logging.handlers.RotatingFileHandler
+        level: DEBUG
+        formatter: upgrade_format
+        filename: info.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+    # error_file_handler:
+        # class: logging.handlers.RotatingFileHandler
+        # level: ERROR
+        # formatter: general_fomat
+        # filename: error.log
+        # maxBytes: 10485760 # 10MB
+        # backupCount: 20
+        # encoding: utf8
+loggers:
+    # 日志器名称
+    my_logger:
+        level: DEBUG
+        handlers: [console,to_file]
+        # 打开日志记录器,设为false则禁止将日志消息传递给父级记录器的处理程序中
+        propagate: False
+# root logger
+root:
+    level: INFO
+    handlers: [console,to_file]

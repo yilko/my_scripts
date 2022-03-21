@@ -1,0 +1,17 @@
+#查询时间范围,以~分隔
+time_range: 2022-01-01~2022-03-01
+#查询的板块,默认是深沪京-szse
+#深沪京-szse,三板-third,基金-fund,债券-bond
+column: bond
+#报告类别,填写多个要用;分开,如果所有类别都查填~
+#年报-category_ndbg_szsh,半年报-category_bndbg_szsh,业绩预告-category_yjygjxz_szsh,董事会-category_dshgg_szsh,
+#监事会-category_jshgg_szsh,股东大会-category_gddh_szsh,日常经营-category_rcjy_szsh,公司治理-category_gszl_szsh
+#深沪京板块写上面的类别，其他板块直接写~
+category: ~
+#文件最小范围,单位为m
+min_size: 5
+#文件最大范围,单位为m
+max_size: 100
+
+#由于接口限制只能返回100页的数据，也就是只能查询100*30=3000条数据,超过100页返回无效数据
+#多次执行时，可能爬取到同名文件，内容一致
