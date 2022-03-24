@@ -17,7 +17,7 @@ class NewFiles:
 
     def __init__(self):
         # 初始化对象
-        config = configparser.ConfigParser();
+        config = configparser.RawConfigParser();
         # 读取配置文件
         config.read("file_config.ini", encoding="utf-8");
         self.is_create = config.getboolean("create_file", "is_create");
@@ -249,13 +249,14 @@ class NewFiles:
 
 
 if __name__ == '__main__':
-    try:
-        nf = NewFiles();
-        nf.update_file();
-        nf.create_files();
-        sf = SaveFiles();
-        sf.save_md5();
-        os.system("pause");
-    except Exception as e:
-        log.error(e);
-        os.system("pause");
+    # try:
+    nf = NewFiles();
+    nf.update_file();
+    nf.create_files();
+    sf = SaveFiles();
+    sf.save_md5();
+    os.startfile(nf.folder);
+        # os.system("pause");
+    # except Exception as e:
+    #     log.error(e);
+    #     os.system("pause");
