@@ -1,0 +1,7 @@
+#名字后面会拼接邮箱,如name@qq.com，所以名字不要有特殊字符，也尽量不要和已有账号重复
+name: stress
+pwd: "nqJFBZ6qRRGDV8srXr6CmA=="
+#保证文件父路径是存在的且该路径下没有该文件(路径要用\\或者/表示)
+csv_path: "D:/work/jmeter/jmx/login_data.csv"
+#创建的数据个数(保证正整数)
+nums: 10

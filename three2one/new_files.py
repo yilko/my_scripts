@@ -1,4 +1,6 @@
-import configparser, os, random;
+import configparser;
+import os;
+import random;
 from datetime import datetime;
 from docx import Document;
 from openpyxl import Workbook, load_workbook;
@@ -249,14 +251,14 @@ class NewFiles:
 
 
 if __name__ == '__main__':
-    # try:
-    nf = NewFiles();
-    nf.update_file();
-    nf.create_files();
-    sf = SaveFiles();
-    sf.save_md5();
-    os.startfile(nf.folder);
-        # os.system("pause");
-    # except Exception as e:
-    #     log.error(e);
-    #     os.system("pause");
+    try:
+        nf = NewFiles();
+        nf.update_file();
+        nf.create_files();
+        sf = SaveFiles();
+        sf.save_md5();
+        os.startfile(nf.folder);
+        os.system("pause");
+    except Exception as e:
+        log.error(e);
+        os.system("pause");
