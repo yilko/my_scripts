@@ -9,7 +9,6 @@ class LoginData:
         yml_content = LoginData.get_yml_data();
         # print(yml_content);
         self.name = yml_content["name"];
-        self.pwd = yml_content["pwd"];
         self.csv_path = yml_content["csv_path"];
         self.nums = int(yml_content["nums"]);
 
@@ -26,7 +25,7 @@ class LoginData:
         with open(self.csv_path, "w", encoding="utf-8-sig") as f:
             for num in range(self.nums):
                 mail = f"{self.name}{num}@qq.com";
-                f.write(f"{mail},{self.pwd}\n");
+                f.write(f"{mail},{self.name}{num}\n");
         os.startfile(self.csv_path);
 
 
