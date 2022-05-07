@@ -46,12 +46,16 @@ def create_folder(content: dict):
 
 # 返回txt模板的内容
 def template_content(content: dict) -> list:
-    txt_ls = content.get("txt_size");
-    content_ls = [];
-    for txt in txt_ls:
-        with open(f"file_template/{txt}", "r", encoding="utf-8") as f:
-            content_ls.append(f.read());
-    return content_ls;
+    txt_ls = ["1k.txt", "1m.txt", "5m.txt", "10m.txt", "15m.txt"];
+    nums_ls = content.get("size_percent");
+    percent_ls = [];
+    for i in range(len(nums_ls)):
+        with open(f"file_template/{txt_ls[i]}", "r", encoding="utf-8") as f:
+            text = f.read();
+        for j in range(nums_ls[i]):
+            percent_ls.append(text);
+    # print(percent_ls,len(percent_ls));
+    return percent_ls;
 
 
 # 创建文件
@@ -84,8 +88,7 @@ def create(content: dict):
                     file_path = f"{folder_path}/{txt_name}{file_count}.txt";
                     pre_content = random.choice(txt_content_ls);
                     with open(file_path, mode="a", encoding="utf-8") as f:
-                        f.write(f"{txt_content}\n现在时间是{time.time()}\n这是第{file_count}个文件啊！！！");
-                        f.write(f"\n\n以下是小说内容\n\n{pre_content}");
+                        f.write(f"{txt_content}\n现在时间是{time.time()}\n这是第{file_count}个文件啊！！！\n\n{pre_content}");
                     file_count += 1;
                 else:
                     log.info(f"第{file_count // file_num_each_folder}个文件夹的文件创建完毕！")
