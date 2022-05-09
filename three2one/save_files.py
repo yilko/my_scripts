@@ -13,7 +13,7 @@ class SaveFiles:
         # 初始化对象
         config = configparser.ConfigParser();
         # 读取配置文件
-        config.read("file_config.ini", encoding="utf-8");
+        config.read("file_config.ini", encoding="utf-8-sig");
         self.create_folder = config.get("create_file", "folder_name");
         self.get_md5 = config.getboolean("md5_file", "get_md5");
         self.save_folder = config.get("md5_file", "folder_name");
@@ -89,7 +89,7 @@ class SaveFiles:
     # 保存到txt
     def __save_txt(self, file_ls: list):
         save_path = f"{self.save_folder}/md5.txt";
-        with open(save_path, "w", encoding="utf-8") as f:
+        with open(save_path, "w", encoding="utf-8-sig") as f:
             for file in file_ls:
                 f.write(f"{file[2]}\n");
         log.info(f"保存txt成功！路径在===={save_path}");

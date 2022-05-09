@@ -22,7 +22,7 @@ class NewFiles:
         # 初始化对象
         config = configparser.RawConfigParser();
         # 读取配置文件
-        config.read("file_config.ini", encoding="utf-8");
+        config.read("file_config.ini", encoding="utf-8-sig");
         self.is_create = config.getboolean("create_file", "is_create");
         self.name = config.get("create_file", "file_name");
         self.num = config.getint("create_file", "file_nums");
@@ -117,7 +117,7 @@ class NewFiles:
 
     # 创建txt格式
     def write_txt(self, mode: str, file_name: str, time_now: datetime):
-        with open(f"{self.folder}/{file_name}", "a", encoding="utf-8") as f:
+        with open(f"{self.folder}/{file_name}", "a", encoding="utf-8-sig") as f:
             f.write(f"{self.content}\n");
             f.write(f"{time_now}\n");
         log.info(f"{file_name}文件已{mode}完毕");
