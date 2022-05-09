@@ -1,7 +1,7 @@
 import os, yaml, time;
 import random;
 
-from config_log import ConfigLog;
+from create_files_tier.config_log import ConfigLog;
 
 '''实现本地递归创建文件夹和txt文件'''
 
@@ -38,8 +38,8 @@ def create_folder(content: dict):
         if not folder_exist:
             os.mkdir(folder_path2);
         # 前面已有两层，从第三层开始
-        for i in range(3, tier_nums + 1):
-            folder_path2 += f"/{i}tier";
+        for j in range(3, tier_nums + 1):
+            folder_path2 += f"/{j}tier";
             os.mkdir(folder_path2);
     log.info("所有文件夹创建完毕！准备创建文件....");
 
@@ -96,6 +96,7 @@ def create(content: dict):
         os.startfile(path);
         log.info("所有文件创建完毕！");
     else:
+        os.startfile(path);
         log.warning("文件个数没有大于零，不创建文件！");
 
 

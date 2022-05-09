@@ -10,6 +10,7 @@ from reportlab.pdfgen import canvas;
 from PyPDF2 import PdfFileReader, PdfFileWriter;
 from config_log import ConfigLog;
 from save_files import SaveFiles;
+
 '''实现创建及更新指定路径下的文件内容'''
 
 log = ConfigLog().config_log();
@@ -26,7 +27,7 @@ class NewFiles:
         self.name = config.get("create_file", "file_name");
         self.num = config.getint("create_file", "file_nums");
         self.content = config.get("create_file", "file_content");
-        self.specific = config.get("create_file", "file_specific");
+        self.file_type = config.get("create_file", "file_type");
         self.folder = config.get("create_file", "folder_name");
         self.font_lib = config.get("create_file", "font_lib");
         self.is_update = config.getboolean("original_file", "is_update");
@@ -44,17 +45,14 @@ class NewFiles:
         log.debug(f"属于文件类型的有{len(file_ls)}个,分别是{file_ls}");
         return file_ls;
 
-    # 每次随机选一个格式创建(或指定格式)
+    # 获取创建文件的类型，并随机返回一个
     @staticmethod
-    def __get_choice(specific=None) -> str:
-        # 定义一个创建文档的列表
-        create_ls = ["docx", "xlsx", "pptx", "txt", "pdf"];
-        if specific is None:
-            return random.choice(create_ls);
-        elif specific in create_ls:
-            return specific;
-        else:
-            raise Exception(f"不支持的创建格式！===={specific},{type(specific)}");
+    def __get_choice(file_type: str) -> str:
+        if file_type.endswith("-"):
+            file_type = file_type[:-1];
+        file_ls = file_type.split("-");
+        suffix = random.choice(file_ls);
+        return suffix;
 
     # 几种文件类型中相同的部分抽离
     @staticmethod
@@ -211,10 +209,8 @@ class NewFiles:
             # 返回新建文件夹的文件列表
             files_ls = self.__new_folder_files();
             for count in range(self.num):
-                if self.specific == "None":
-                    self.specific = None;
                 # 随机生成后缀格式
-                suffix = NewFiles.__get_choice(self.specific);
+                suffix = NewFiles.__get_choice(self.file_type);
                 # 检查重名并返回文件名称，时间戳
                 file_name, time_now = NewFiles.__abstract_file(count, self.name, suffix, files_ls);
                 func_name = f"write_{suffix}";
@@ -222,8 +218,16 @@ class NewFiles:
                 if hasattr(self, func_name):
                     func = getattr(self, func_name);
                     func("create", file_name, time_now);
+                else:
+                    log.error(f"不支持创建的格式===={suffix},无法调用对应方法创建文件===={func_name}");
             else:
+                # 删除临时img图片
+                img_path = f"{self.folder}/temp_photo.jpg";
+                if os.path.exists(img_path):
+                    os.remove(img_path);
+                log.debug(f"-----------------删除临时图片===={img_path}-----------------");
                 log.info(f"--------------总共给{self.num}个文件进行创建----------------");
+
         else:
             log.info("不需要新建文件");
 
